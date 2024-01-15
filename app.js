@@ -1,23 +1,20 @@
 const express = require("express"),
-  { MongoClient } = require("mongodb"),
+  mongoose = require("mongoose"),
   port = 3000,
   app = express();
 
 // uri to local instance
 const uri = "mongodb://localhost:27017/healthDB";
 
-const client = new MongoClient(uri);
-
-// connect to mongodb
-client
-  .connect()
+// connect using Mongoose ORM
+mongoose
+  .connect(uri)
   .then(() => {
-    console.log("connected to the db");
+    console.log("connected to mongo db");
   })
   .catch((err) => {
-    console.error(`Error connecting to db: ${err}`);
+    console.error(`Error connecting to the database: ${err}`);
   });
-
 // Middleware function to log timestamp and requested endpoint
 const requestLoggerMiddleware = (req, res, next) => {
   // Log timestamp and requested endpoint
