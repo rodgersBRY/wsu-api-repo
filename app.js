@@ -1,7 +1,8 @@
 const express = require("express"),
   mongoose = require("mongoose"),
   port = 3000,
-  app = express();
+  app = express(),
+  userRoutes = require("./routes");
 
 // uri to local instance
 const uri = "mongodb://localhost:27017/healthDB";
@@ -24,10 +25,20 @@ const requestLoggerMiddleware = (req, res, next) => {
 };
 
 // Use the middleware for all incoming requests
-app.use(requestLoggerMiddleware);
+app.use(express.json());
 
 app.use("/api/health", (req, res, next) => {
   res.json({ message: "Server is healthy" });
+});
+
+app.use("/", userRoutes);
+
+// error middleware
+app.use((err, req, res, next) => {
+  const message = err.message;
+  const status = err.statusCode || 500;
+
+  return res.status(status).json({ message });
 });
 
 app.listen(port, () => {
