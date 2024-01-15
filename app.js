@@ -25,7 +25,7 @@ const requestLoggerMiddleware = (req, res, next) => {
 };
 
 // Use the middleware for all incoming requests
-app.use(express.json());
+app.use(express.json()).use(requestLoggerMiddleware);
 
 app.use("/api/health", (req, res, next) => {
   res.json({ message: "Server is healthy" });
