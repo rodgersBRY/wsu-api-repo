@@ -1,1 +1,4 @@
 /node_modules
+
+# plugin to test my endpoints inside vs code
+*.http
